@@ -1,0 +1,140 @@
+.profile-container {
+  min-height: 100vh;
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--glass-border);
+  background: var(--nav-bg);
+  backdrop-filter: blur(24px);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  padding: 8px 12px;
+  font-weight: 400;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn:hover {
+  color: var(--accent-gold);
+}
+
+.theme-toggle-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--glass-hover-bg);
+  border-color: var(--accent-gold);
+}
+
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+.header {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin-bottom: 16px;
+  color: var(--text-color);
+}
+
+.subtitle {
+  color: var(--text-faint);
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  border-radius: 4px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--accent-gold);
+  margin-bottom: 40px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100px 0;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.loading {
+  text-align: center;
+  padding: 100px 0;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
