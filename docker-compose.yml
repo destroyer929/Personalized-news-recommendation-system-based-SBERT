@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: news-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: karunakar
+      POSTGRES_DB: test
+    ports:
+      - "1234:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - news-network
+
+  ml-backend:
+    build:
+      context: ./algorithm
+    container_name: news-ml-backend
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./algorithm:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - db
+    networks:
+      - news-network
+
+  frontend:
+    build:
+      context: ./web-app
+    container_name: news-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web-app:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - GRPC_HOST=ml-backend
+      - GRPC_PORT=50051
+    depends_on:
+      - ml-backend
+    networks:
+      - news-network
+
+networks:
+  news-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -47,26 +47,33 @@ def get_newsapi_data(api_key, category, is_keyword=False):
         return []
 
 if __name__ == "__main__":
-    print("Starting English news crawler (NewsAPI)...")
+    import concurrent.futures
+
+    print("Starting English news crawler (NewsAPI) with Multi-threading...")
     API_KEY = "10063597173a4b89bfd653733c0f57d6"
     
-    # 8 Categories from Next.js Onboarding
+    # Categories from Next.js Onboarding
     standard_categories = ['Technology', 'Business', 'Science', 'Sports', 'Entertainment', 'Health']
     keyword_categories = ['Politics', 'World']
     
     all_news_data = []
     
-    # Fetch standard categories
-    for cat in standard_categories:
-        news = get_newsapi_data(API_KEY, cat, is_keyword=False)
-        all_news_data.extend(news)
-        time.sleep(1) # Prevent rate limiting
+    # Define worker function
+    def fetch_category(cat_info):
+        cat, is_keyword = cat_info
+        return get_newsapi_data(API_KEY, cat, is_keyword=is_keyword)
+
+    # Prepare tasks
+    tasks = [(cat, False) for cat in standard_categories] + [(cat, True) for cat in keyword_categories]
+
+    # Execute with ThreadPoolExecutor
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        # We use map to run tasks concurrently
+        results = executor.map(fetch_category, tasks)
         
-    # Fetch keyword categories
-    for cat in keyword_categories:
-        news = get_newsapi_data(API_KEY, cat, is_keyword=True)
-        all_news_data.extend(news)
-        time.sleep(1)
+        for news in results:
+            if news:
+                all_news_data.extend(news)
     
     if all_news_data:
         df = pd.DataFrame(all_news_data)
